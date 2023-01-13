@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('license_key');
             $table->integer('allowed_activities');
             $table->string('expiry_date');
+            $table->boolean('status');
             $table->text('note');
             $table->softDeletes(); 
             

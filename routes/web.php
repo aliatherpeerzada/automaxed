@@ -18,6 +18,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+    if (Auth::check()) {
+        return redirect('/home');
+    }
     return view('welcome');
 });
 
@@ -32,10 +35,10 @@ Route::post('/login',[LoginController::class,'customLogin'])->name('login');
 
 
 
-
+Route::get('/show-licenses',[LicenseController::class,'show'])->name('show-licenses');
 Route::post('update-cred',[LicenseController::class,'update_cred'])->name('update-credentials');
 Route::middleware(['auth'])->group(function () {
-
+    Route::post('update-cred',[LicenseController::class,'update_cred'])->name('update-credentials');
 
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('add-license',[LicenseController::class,'add'])->name('add-license');

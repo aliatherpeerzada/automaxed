@@ -15,12 +15,12 @@ class LicenseController extends Controller
         
         ]);
         if($request->password!='')
-        {
-User::first()->update([
-    'username'=>$data['username'],
-    'secret'=>$data['secret'],
-    'password'=>bcrypt($request->password)
-]);
+        {   
+          User::first()->update([
+              'username'=>$data['username'],
+              'secret'=>$data['secret'],
+              'password'=>bcrypt($request->password)
+          ]);
         }
         else
         {
@@ -30,9 +30,17 @@ User::first()->update([
             ]);
             
         }
-return redirect()->back()->with('message','Record Updated Successfully');
+              return redirect()->back()->with('message','Record Updated Successfully');
 
     }
    
+
+    public function add(Request $request){
+        dd($request);
+    }
+
+    public function show(){
+        
+    }
     //
 }

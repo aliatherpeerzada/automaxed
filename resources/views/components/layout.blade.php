@@ -21,7 +21,11 @@
     <link id="pagestyle" href="{{ URL::asset('assets/css/argon-dashboard.css') }}" rel="stylesheet" />
    
 </head>
-
+<style>
+    html{
+        zoom:90%
+    }
+    </style>
 <body class="g-sidenav-show   bg-gray-100">
     <div class="min-height-150 bg-primary position-absolute w-100"></div>
     <x-aside />
@@ -33,8 +37,7 @@
         <div class="container-fluid py-4">
           
             {{$slot}}
-            <x-footer />
- 
+          
         </div>
  
     </main>
