@@ -16,6 +16,7 @@ protected $fillable=[
     'allowed_activities',
     'expiry_date',
     'license_key',
-    'note'
+    'note',
+    'status'
 ];
 }

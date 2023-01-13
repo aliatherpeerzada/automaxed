@@ -41,7 +41,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('update-cred',[LicenseController::class,'update_cred'])->name('update-credentials');
 
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('add-license',[LicenseController::class,'add'])->name('add-license');
+Route::post('add-license',[LicenseController::class,'add'])->name('add-license');
 Route::get('settings',function(){
     $data=User::first();
 return view('settings',['data'=>$data]);

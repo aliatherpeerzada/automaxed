@@ -6,7 +6,8 @@
                     <h4 class="font-weight-bolder">Add New License</h4>
                 </div>
                 <div class="card-body">
-                    <form role="form" action="{{ route('add-license') }}" method="POST">
+                    <form role="form" id="license-form" action="{{ route('add-license') }}" method="POST">
+                        @csrf
                         <div class="row">
                             <label> License Status</label>
                             <div class="roButton">
@@ -32,8 +33,13 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label>Customer Name</label>
-                                    <input type="text" id="customer_name" class="form-control form-control-lg"
+                                    <input type="text" id="customer_name" name="customer_name" class="form-control form-control-lg @error('customer_name') is-invalid @enderror"
                                         placeholder="Customer Name" aria-label="Password">
+                                        @error('customer_name')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
                                     <label id="customer_name_error" style="display:none;color:red">Customer Name Is
                                         Required</label>
                                 </div>
@@ -43,9 +49,14 @@
                                 <div class="mb-3">
                                     <label>Customer Email</label>
 
-                                    <input type="text" id="customer_email" class="form-control form-control-lg"
+                                    <input type="text" id="customer_email" name="customer_email" class="form-control form-control-lg @error('customer_email') is-invalid @enderror"
                                         placeholder="Customer Email" aria-label="Email">
-                                    <label id="customer_email_error" style="display:none;color:red">Customer Email Is
+                                        @error('customer_email')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                        <label id="customer_email_error" style="display:none;color:red">Customer Email Is
                                         Required</label>
 
                                 </div>
@@ -57,8 +68,13 @@
                             <div class="col-md-6">
                                 <div class="mb-3">
                                     <label>License Key</label>
-                                    <input type="text" id="license_key" class="form-control form-control-lg"
+                                    <input type="text" id="license_key" name="license_key" class="form-control form-control-lg @error('license_key') is-invalid @enderror"
                                         placeholder="License Key" aria-label="Password">
+                                        @error('license_key')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                     <label id="license_key_error" style="display:none;color:red">License Key Is Required</label>
 
                                 </div>
@@ -69,9 +85,13 @@
                                     <label>Allowed Activities</label>
 
                                     <input type="number" name="activity" id="activity" min="1"
-                                        class="form-control form-control-lg" placeholder="Allowed Activities"
+                                        class="form-control form-control-lg @error('activity') is-invalid @enderror" placeholder="Allowed Activities"
                                         aria-label="Password">
-
+                                        @error('activity')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                     <label id="activity_error" style="display:none;color:red">Allowed Activity Is Required</label>
                                 </div>
 
@@ -82,14 +102,19 @@
                         <div class="mb-3">
                             <label>Expiry Date</label>
 
-                            <input type="date" id="expiry_date" class="form-control form-control-lg"
+                            <input type="date" id="expiry_date" name="expiry_date" class="form-control form-control-lg @error('expiry_date') is-invalid @enderror"
                                 min="{{ date('Y-m-d') }}" placeholder="Expiry Date" aria-label="Password">
+                                @error('expiry_date')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                             <label id="expiry_date_error" style="display:none;color:red">Expiry Date Is Required</label>
 
                         </div>
                         <div class="mb-3">
                             <label>Note</label>
-                            <textarea placeholder="Notes" class="form-control form-control-lg"></textarea>
+                            <textarea placeholder="Notes" name="note" class="form-control form-control-lg"></textarea>
                         </div>
 
 
@@ -155,7 +180,7 @@
         }
 
 
-
+$('#license-form').submit();
 
 
     })
