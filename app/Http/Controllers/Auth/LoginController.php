@@ -68,4 +68,5 @@ if(Auth::attempt($request->only('username', 'password')) )
     }
      
     }
+
 }

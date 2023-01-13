@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\LicenseController;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -27,4 +29,21 @@ Route::Post('/logout',function(){
 
 Route::post('/login',[LoginController::class,'customLogin'])->name('login');
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+
+
+Route::post('update-cred',[LicenseController::class,'update_cred'])->name('update-credentials');
+Route::middleware(['auth'])->group(function () {
+
+
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('add-license',[LicenseController::class,'add'])->name('add-license');
+Route::get('settings',function(){
+    $data=User::first();
+return view('settings',['data'=>$data]);
+});
+
+
+
+});

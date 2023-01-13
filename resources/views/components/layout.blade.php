@@ -19,6 +19,7 @@
     <link href="{{ URL::asset('assets/css/nucleo-svg.css') }}" rel="stylesheet" />
     <!-- CSS Files -->
     <link id="pagestyle" href="{{ URL::asset('assets/css/argon-dashboard.css') }}" rel="stylesheet" />
+   
 </head>
 
 <body class="g-sidenav-show   bg-gray-100">
@@ -27,6 +28,7 @@
     <main class="main-content position-relative border-radius-lg ">
         <!-- Navbar -->
         <x-nav />
+       
         <!-- End Navbar -->
         <div class="container-fluid py-4">
           
@@ -38,21 +40,29 @@
     </main>
     <x-fixed-plugin />
     <!--   Core JS Files   -->
-    <script src="{{ URL::asset('assets/js/core/popper.min.js') }}"></script>
-    <script src="{{ URL::asset('assets/js/core/bootstrap.min.js') }}"></script>
-    <script src="{{ URL::asset('assets/js/plugins/perfect-scrollbar.min.js') }}"></script>
-    <script src="{{ URL::asset('assets/js/plugins/smooth-scrollbar.min.js') }}"></script>
-    <script src="{{ URL::asset('assets/js/plugins/chartjs.min.js') }}"></script>
-    <script>
-        var win = navigator.platform.indexOf('Win') > -1;
-        if (win && document.querySelector('#sidenav-scrollbar')) {
-            var options = {
-                damping: '0.5'
-            }
-            Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
-        }
-    </script>
-    <script src="{{ URL::asset('assets/js/argon-dashboard.min.js') }}"></script>
+   
 </body>
 
 </html>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.slim.min.js"></script>
+<script src="//unpkg.com/alpinejs" defer></script>
+
+<script src="{{ URL::asset('assets/js/core/popper.min.js') }}"></script>
+<script src="{{ URL::asset('assets/js/core/bootstrap.min.js') }}"></script>
+<script src="{{ URL::asset('assets/js/plugins/perfect-scrollbar.min.js') }}"></script>
+<script src="{{ URL::asset('assets/js/plugins/smooth-scrollbar.min.js') }}"></script>
+<script src="{{ URL::asset('assets/js/plugins/chartjs.min.js') }}"></script>
+{{-- <script src="{{ URL::asset('assets/js/toast.js') }}"></script> --}}
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<script>
+    var win = navigator.platform.indexOf('Win') > -1;
+    if (win && document.querySelector('#sidenav-scrollbar')) {
+        var options = {
+            damping: '0.5'
+        }
+        Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+    }
+</script>
+<script src="{{ URL::asset('assets/js/argon-dashboard.min.js') }}"></script>
+<x-notification />
