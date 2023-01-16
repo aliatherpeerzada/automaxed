@@ -25,11 +25,8 @@
          
         }
     
-        $(".tst3").click(function(){
-         
-
-     });
     </script>
 
     
 @endif
+

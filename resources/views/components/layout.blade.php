@@ -17,6 +17,7 @@
     <!-- Font Awesome Icons -->
     <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
     <link href="{{ URL::asset('assets/css/nucleo-svg.css') }}" rel="stylesheet" />
+  
     <!-- CSS Files -->
     <link id="pagestyle" href="{{ URL::asset('assets/css/argon-dashboard.css') }}" rel="stylesheet" />
    
@@ -58,6 +59,9 @@
 {{-- <script src="{{ URL::asset('assets/js/toast.js') }}"></script> --}}
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<link href="//cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css" rel="stylesheet">
+<script src="//cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+
 <script>
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {
