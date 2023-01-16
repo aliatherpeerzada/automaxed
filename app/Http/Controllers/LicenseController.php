@@ -59,12 +59,7 @@ class LicenseController extends Controller
             'note'=>$request['note'],
 
         ]);
-        Activity_log::create([
-            'license_id'=>$data->id,
-            'user_id'=>Auth::user()->id,
-                        'status'=>'CREATED'
-                    ]);
-
+   
         return redirect()->back()->with('message','License Added Successfully');
     }
 
@@ -100,11 +95,7 @@ return view('show-license',['licenses'=>$licenses]);
                     'note'=>$request['note'],
         
                 ]);
-        Activity_log::where('license_id',$data[$id])->first()->update([
-'user_id'=>Auth::user()->id,
-            'status'=>'UPDATED'
-        ]);
-
+       
         return redirect('/show-licenses')->with('message','License Updated Successfully');
              
      

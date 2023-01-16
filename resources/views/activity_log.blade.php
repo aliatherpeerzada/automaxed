@@ -43,7 +43,10 @@ $license_data = DB::table('licenses')->where('id',$data->license_id)->first();
             $(document).ready( function () {
             $('table').DataTable({
                 responsive: true,
-                
+                dom: 'Bfrtip',
+        buttons: [
+            'csv', 'excel'
+        ]
             });
         } );
         </script>

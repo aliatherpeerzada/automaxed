@@ -27,7 +27,27 @@
                     <td>{{ $license->customer_email }}</td>
                     <td>{{ $license->allowed_activities }}</td>
                     <td>{{ $license->expiry_date }}</td>
-                    <td>{{ $status[$license->status] }}</td>
+                    <td>
+                        <div class="roButton">
+                            <ul>
+                                <li style="display:{{$license->status==0?'none':''}}">
+                                    <input type="radio" {{$license->status==1?'checked':''}}  value="1">
+                           
+                                    <span class="tickcheck">
+                                        <i class="ni ni-check-bold"></i>
+                                    </span>
+                                </li>
+
+                                <li style="display:{{$license->status==1?'none':''}}">
+                                    <input type="radio" {{$license->status==0?'checked':''}}  value="0">
+                           
+                                    <span class="crosscheck">
+                                        <i class="ni ni-fat-remove"></i>
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                        </td>
                     <td>{{ $license->note }}</td>
                     <td><a href="/license/{{$license->id}}/edit" > <i class="fa fa-pencil-square-o btn btn-success" aria-hidden="true"></i>
                     </a></td>
@@ -53,7 +73,46 @@
             $(document).ready( function () {
             $('table').DataTable({
                 responsive: true,
-                
+                dom: 'Bfrtip',
+        buttons: [
+            'csv', 'excel'
+        ]
             });
         } );
         </script>
+
+<style>
+    .roButton ul li {
+        display: inline-block;
+        margin-right: 15px;
+        position: relative;
+    }
+
+    .roButton ul li span {
+        width: 50px;
+        height: 50px;
+        border: 1px solid #c5c5c5;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        font-size: 22px;
+        #c5c5c5;
+    }
+
+    .roButton ul li input {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+    }
+
+    .roButton ul li input:checked~span.tickcheck {
+        background-color: #11BF05;
+        color: #fff;
+    }
+
+    .roButton ul li input:checked~span.crosscheck {
+        background-color: #E52F4A;
+        color: #fff;
+    }
+</style>
