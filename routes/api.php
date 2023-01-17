@@ -33,11 +33,6 @@ Route::POST('/useLicense',function(Request $request){
     $country=Location::get($pip)->countryName;
     $email=$request->email;
     $key=$request->key;
-    $check = license::where('customer_email',$email)->where('license_key',$key)->where('status',1)->first();
-
-    if(!isset($check)){
-    return 'License Not Activated Yet';
-}
 
     $data = license::where('customer_email',$email)->where('license_key',$key)->where('allowed_activities','>',0)->first();
     if(isset($data)){
@@ -59,12 +54,12 @@ return "License Activated Successfully";
     else{
         Activity_log::create([
             'license_key'=>$key,
-            'name'=>$data->customer_name,
+            'name'=>'',
             'email'=>$email,
             'ip'=>$ip,
             'hardware_id'=>$hid,
             'country'=>$country
-           ,'status'=>'Activated'
+           ,'status'=>'FAILED'
            ]);
 
          return "License Activation Failed";

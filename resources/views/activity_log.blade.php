@@ -6,7 +6,7 @@
         <thead>
             <tr>
                 <td>ID</td>
-                <td>Action By</td>
+                <td>License Key</td>
                 <td>Customer Name</td>
                 <td>Customer Email</td>
  <td>Country</td>
