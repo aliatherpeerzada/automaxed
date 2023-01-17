@@ -15,6 +15,7 @@
                 <td>Expiry Date</td>
                 <td>Status</td>
                 <td>Note</td>
+                <td>View</td>
                 <td>Edit</td>
                 <td>Delete</td>
             </tr>
@@ -49,6 +50,10 @@
                         </div>
                         </td>
                     <td>{{ $license->note }}</td>
+                    <td><a href="/license/{{$license->id}}/view" class="btn btn-info" > <i class="fa fa-eye" aria-hidden="true"></i>
+
+                    </a></td>
+                 
                     <td><a href="/license/{{$license->id}}/edit" > <i class="fa fa-pencil-square-o btn btn-success" aria-hidden="true"></i>
                     </a></td>
                     <td>

@@ -10,7 +10,7 @@
         </a>
     </div>
     <hr class="horizontal dark mt-0">
-    <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
+    <div class="collapse navbar-collapse h-auto w-auto " id="sidenav-collapse-main">
         <ul class="navbar-nav">
             <li class="nav-item">
                 <a class="nav-link " href="{{ URL('/home') }}">
@@ -102,7 +102,7 @@
         </ul>
     </div>
 
-    <div class="sidenav-footer mx-3 ">
+    <div class="sidenav-footer " style="bottom:0px;position:absolute">
         <div class="card card-plain shadow-none" id="sidenavCard">
             <div class="card-body text-center p-3 w-100 pt-0">
                 <div class="docs-info">

@@ -55,6 +55,11 @@ Route::get('/license/{id}/edit',function($id){
 $license= App\Models\license::where('id',$id)->first();
 return view('edit-license',['license'=>$license]);
 });
+Route::get('/license/{id}/view',function($id){
+    $license= App\Models\license::where('id',$id)->first();
+    return view('view-license',['license'=>$license]);
+    });
+    
 Route::post('/license-delete/{id}',[LicenseController::class,'delete']);
 Route::get('/show-licenses',[LicenseController::class,'show'])->name('show-licenses');
 Route::post('update-cred',[LicenseController::class,'update_cred'])->name('update-credentials');

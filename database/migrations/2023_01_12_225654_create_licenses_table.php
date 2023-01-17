@@ -21,7 +21,7 @@ return new class extends Migration
             $table->integer('allowed_activities');
             $table->string('expiry_date');
             $table->boolean('status');
-            $table->text('note');
+            $table->text('note')->nullable();
             $table->softDeletes(); 
             
             

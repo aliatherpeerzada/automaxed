@@ -15,12 +15,13 @@ return new class extends Migration
     {
         Schema::create('activity_logs', function (Blueprint $table) {
             $table->id();
-            $table->integer('license_key');
+            $table->string('license_key');
 $table->string('name');
 $table->string('email');
 $table->string('country');
 $table->string('ip');
 $table->string('hardware_id');
+$table->string('status');
             $table->timestamps();
         });
     }

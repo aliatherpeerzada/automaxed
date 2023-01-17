@@ -9,7 +9,11 @@ class Activity_log extends Model
 {
     use HasFactory;
 
-    protected $fillable=['license_id',
-'user_id',
+    protected $fillable=[
+        'license_key',
+'name',
+'email',
+'country',
+'ip','hardware_id',
 'status'];
 }
