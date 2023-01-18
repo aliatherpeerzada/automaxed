@@ -9,16 +9,16 @@
 
             <thead>
                 <tr>
-                    <td>ID</td>
-                    <td>Customer Name</td>
-                    <td>Customer Email</td>
-                    <td>Allowed Activities</td>
-                    <td>Expiry Date</td>
-                    <td>Status</td>
-                    <td>Note</td>
-                    <td>View</td>
-                    <td>Edit</td>
-                    <td>Delete</td>
+                    <th>ID</th>
+                    <th>Customer Name</th>
+                    <th>Customer Email</th>
+                    <th>Allowed Activities</th>
+                    <th>Expiry Date</th>
+                    <th>Status</th>
+                    <th>Note</th>
+                    <th>View</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
                 </tr>
             </thead>
             <tbody>
@@ -80,8 +80,9 @@
 
 <script>
     $(document).ready(function() {
-        $('table').DataTable({
+        $('#table').DataTable({
             responsive: true,
+            order:[],
             dom: 'Bfrtip',
             buttons: [
                 'csv', 'excel'
