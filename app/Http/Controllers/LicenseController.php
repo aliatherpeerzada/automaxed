@@ -7,9 +7,32 @@ use App\Models\license;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Spatie\SimpleExcel\SimpleExcelReader;
 
 class LicenseController extends Controller
 {
+
+    public function import(Request $request){
+        $request->validate([
+            'file'=>'required|mimes:csv'
+        ]);
+        SimpleExcelReader::create($request->file('file'),'csv')
+                   
+                    ->getRows()
+                    ->each(function(array $rowProperties) {
+                        license::create([
+                            'customer_name' => $rowProperties['customer_name'],
+                            'customer_email' => $rowProperties['customer_email'],
+                            'license_key' => $rowProperties['license_key'],
+                            'allowed_activities' => $rowProperties['allowed_activities'],
+                            'expiry_date' => $rowProperties['expiry_date'],
+                            'status' => $rowProperties['status'],
+                            'note' => $rowProperties['note'],
+                        ]);
+                });
+
+                return redirect('/show-licenses')->with('message','File uploaded successfully');
+    }
 
     public function update_cred(Request $request){
         $data = $request->validate([

@@ -59,9 +59,12 @@ Route::get('/license/{id}/view',function($id){
     $license= App\Models\license::where('id',$id)->first();
     return view('view-license',['license'=>$license]);
     });
-    
+    Route::get('/upload-csv',function(){
+        return view('import_csv');
+    })->name('csv-upload');
 Route::post('/license-delete/{id}',[LicenseController::class,'delete']);
 Route::get('/show-licenses',[LicenseController::class,'show'])->name('show-licenses');
+Route::post('import-csv',[LicenseController::class,'import'])->name('import-csv');
 Route::post('update-cred',[LicenseController::class,'update_cred'])->name('update-credentials');
 Route::get('/show-activity',[ActivityController::class,'show'])->name('show-activity'); 
 

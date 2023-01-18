@@ -52,17 +52,17 @@ Route::POST('/useLicense',function(Request $request){
 return "License Activated Successfully";
     }
     else{
-        Activity_log::create([
-            'license_key'=>$key,
-            'name'=>'',
-            'email'=>$email,
-            'ip'=>$ip,
-            'hardware_id'=>$hid,
-            'country'=>$country
-           ,'status'=>'FAILED'
-           ]);
+        // Activity_log::create([
+        //     'license_key'=>$key,
+        //     'name'=>'',
+        //     'email'=>$email,
+        //     'ip'=>$ip,
+        //     'hardware_id'=>$hid,
+        //     'country'=>$country
+        //    ,'status'=>'FAILED'
+        //    ]);
 
-         return "License Activation Failed";
+         return "Customer Email / License Not Found";
     }
 return  ;
 });

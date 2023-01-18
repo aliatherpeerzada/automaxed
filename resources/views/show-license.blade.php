@@ -3,88 +3,92 @@
         $status = ['Not Activated', 'Activated'];
         
     @endphp
-    <div style="margin-top:55px !important;min-height:600px" class="table-responsive" >
-    <table id="table" class="display"  >
+    <div style="margin-top:55px !important;min-height:600px" class="table-responsive">
+      
+        <table id="table" class="display">
 
-        <thead>
-            <tr>
-                <td>ID</td>
-                <td>Customer Name</td>
-                <td>Customer Email</td>
-                <td>Allowed Activities</td>
-                <td>Expiry Date</td>
-                <td>Status</td>
-                <td>Note</td>
-                <td>View</td>
-                <td>Edit</td>
-                <td>Delete</td>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($licenses as $license)
+            <thead>
                 <tr>
-                    <td>{{$license->id}}</td>
-                    <td>{{ $license->customer_name }}</td>
-                    <td>{{ $license->customer_email }}</td>
-                    <td>{{ $license->allowed_activities }}</td>
-                    <td>{{ $license->expiry_date }}</td>
-                    <td>
-                        <div class="roButton">
-                            <ul>
-                                <li style="display:{{$license->status==0?'none':''}}">
-                                    <input type="radio" {{$license->status==1?'checked':''}}  value="1">
-                           
-                                    <span class="tickcheck">
-                                        <i class="ni ni-check-bold"></i>
-                                    </span>
-                                </li>
-
-                                <li style="display:{{$license->status==1?'none':''}}">
-                                    <input type="radio" {{$license->status==0?'checked':''}}  value="0">
-                           
-                                    <span class="crosscheck">
-                                        <i class="ni ni-fat-remove"></i>
-                                    </span>
-                                </li>
-                            </ul>
-                        </div>
-                        </td>
-                    <td>{{ $license->note }}</td>
-                    <td><a href="/license/{{$license->id}}/view" class="btn btn-info" > <i class="fa fa-eye" aria-hidden="true"></i>
-
-                    </a></td>
-                 
-                    <td><a href="/license/{{$license->id}}/edit" > <i class="fa fa-pencil-square-o btn btn-success" aria-hidden="true"></i>
-                    </a></td>
-                    <td>
-                        <form action="/license-delete/{{$license->id}}" method="post">
-@csrf
-<button type="submit" class="btn btn-danger" ><i class="fa fa-trash" aria-hidden="true"></i>
-
-</button>
-</form>
-                    </td>
+                    <td>ID</td>
+                    <td>Customer Name</td>
+                    <td>Customer Email</td>
+                    <td>Allowed Activities</td>
+                    <td>Expiry Date</td>
+                    <td>Status</td>
+                    <td>Note</td>
+                    <td>View</td>
+                    <td>Edit</td>
+                    <td>Delete</td>
                 </tr>
-            @endforeach
-        </tbody>
-        <table>
+            </thead>
+            <tbody>
+                @foreach ($licenses as $license)
+                    <tr>
+                        <td>{{ $license->id }}</td>
+                        <td>{{ $license->customer_name }}</td>
+                        <td>{{ $license->customer_email }}</td>
+                        <td>{{ $license->allowed_activities }}</td>
+                        <td>{{ $license->expiry_date }}</td>
+                        <td>
+                            <div class="roButton">
+                                <ul>
+                                    <li style="display:{{ $license->status == 0 ? 'none' : '' }}">
+                                        <input type="radio" {{ $license->status == 1 ? 'checked' : '' }} value="1">
+
+                                        <span class="tickcheck">
+                                            <i class="ni ni-check-bold"></i>
+                                        </span>
+                                    </li>
+
+                                    <li style="display:{{ $license->status == 1 ? 'none' : '' }}">
+                                        <input type="radio" {{ $license->status == 0 ? 'checked' : '' }} value="0">
+
+                                        <span class="crosscheck">
+                                            <i class="ni ni-fat-remove"></i>
+                                        </span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                        <td>{{ $license->note }}</td>
+                        <td><a href="/license/{{ $license->id }}/view" class="btn btn-info"> <i class="fa fa-eye"
+                                    aria-hidden="true"></i>
+
+                            </a></td>
+
+                        <td><a href="/license/{{ $license->id }}/edit"> <i
+                                    class="fa fa-pencil-square-o btn btn-success" aria-hidden="true"></i>
+                            </a></td>
+                        <td>
+                            <form action="/license-delete/{{ $license->id }}" method="post">
+                                @csrf
+                                <button type="submit" class="btn btn-danger"><i class="fa fa-trash"
+                                        aria-hidden="true"></i>
+
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+            <table>
 
 
 
-        </div>
-        </x-layout>
+    </div>
+</x-layout>
 
-        <script>
-            $(document).ready( function () {
-            $('table').DataTable({
-                responsive: true,
-                dom: 'Bfrtip',
-        buttons: [
-            'csv', 'excel'
-        ]
-            });
-        } );
-        </script>
+<script>
+    $(document).ready(function() {
+        $('table').DataTable({
+            responsive: true,
+            dom: 'Bfrtip',
+            buttons: [
+                'csv', 'excel'
+            ]
+        });
+    });
+</script>
 
 <style>
     .roButton ul li {
