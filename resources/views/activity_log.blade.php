@@ -43,7 +43,7 @@
 
         <script>
             $(document).ready( function () {
-            $('table').DataTable({
+            $('#table').DataTable({
                 responsive: true,
                 dom: 'Bfrtip',
         buttons: [
