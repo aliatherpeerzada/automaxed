@@ -30,6 +30,7 @@ Route::POST('/useLicense',function(Request $request){
         $pip = file_get_contents('https://api.ipify.org');
 
     $hid=exec('getmac');
+    $hid = strtok($hid, ' '); 
     $country=Location::get($pip)->countryName;
     $email=$request->email;
     $key=$request->key;

@@ -1,7 +1,7 @@
 <x-layout>
-  
-<div style="margin-top:55px !important;min-height:600px" class="table-responsive" >
-    <table id="table"   >
+  <h2 class="mb-3" style="margin-top:55px !important;">Activity Log</h2>
+<div style="min-height:600px" class="table-responsive" >
+    <table id="table" data-order="[]"  >
 
         <thead>
             <tr>

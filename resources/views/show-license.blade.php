@@ -3,16 +3,18 @@
         $status = ['Not Activated', 'Activated'];
         
     @endphp
-    <div style="margin-top:55px !important;min-height:600px" class="table-responsive">
+<h2 style="margin-top:55px !important;" class='mb-3'>All Licenses</h2>    
+    <div style=" min-height:600px" class="table-responsive">
       
-        <table id="table" class="display">
+        <table id="table" class="display" data-order="[]">
 
             <thead>
                 <tr>
                     <td>ID</td>
                     <td>Customer Name</td>
                     <td>Customer Email</td>
-                    <td>Allowed Activities</td>
+                    <td>License Key </td>
+                    <td>Allowed Activations</td>
                     <td>Expiry Date</td>
                     <td>Status</td>
                     <td>Note</td>
@@ -27,6 +29,7 @@
                         <td>{{ $license->id }}</td>
                         <td>{{ $license->customer_name }}</td>
                         <td>{{ $license->customer_email }}</td>
+                        <td>{{ $license->license_key }}</td>
                         <td>{{ $license->allowed_activities }}</td>
                         <td>{{ $license->expiry_date }}</td>
                         <td>
@@ -81,7 +84,6 @@
 <script>
     $(document).ready(function() {
         $('table').DataTable({
-            responsive: true,
             dom: 'Bfrtip',
             buttons: [
                 'csv', 'excel'

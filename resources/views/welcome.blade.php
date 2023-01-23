@@ -31,7 +31,7 @@
             <div class="col-md-6 mt-4 d-flex flex-column mx-lg-0 mx-auto">
                 <div class="card card-plain">
                   <div class="card-header pb-0 text-start">
-                    <h4 class="font-weight-bolder text-center">Company Name ABC License Manager</h4>
+                    <h4 class="font-weight-bolder text-center">{{strip_tags(App\Models\User::pluck('companyname')->first())}}</h4>
                     <p class="mb-0 text-center">Enter your Credentials to sign in</p>
                   </div>
                   <div class="card-body">

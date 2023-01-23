@@ -38,6 +38,7 @@ class LicenseController extends Controller
         $data = $request->validate([
             'username'=>'required',
             'secret'=>'required',
+            'companyname'=>'required'
         
         ]);
         if($request->password!='')
@@ -45,7 +46,8 @@ class LicenseController extends Controller
           User::first()->update([
               'username'=>$data['username'],
               'secret'=>$data['secret'],
-              'password'=>bcrypt($request->password)
+              'password'=>bcrypt($request->password),
+              'companyname'=>$data['companyname']
           ]);
         }
         else
@@ -53,6 +55,7 @@ class LicenseController extends Controller
             User::first()->update([
                 'username'=>$data['username'],
                 'secret'=>$data['secret'],
+                'companyname'=>$data['companyname']
             ]);
             
         }
@@ -87,7 +90,8 @@ class LicenseController extends Controller
     }
 
     public function show(){
-        $licenses=license::all();
+        $licenses=license::orderBy('id','desc')
+        ->get();
 return view('show-license',['licenses'=>$licenses]);
     }
     //

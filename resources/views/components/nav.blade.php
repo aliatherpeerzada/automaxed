@@ -1,7 +1,7 @@
 <?php 
 
 $total=App\Models\license::count();
-$valid=App\Models\license::where('status',1)->count();
+$valid=App\Models\license::whereDate('expiry_date','>',date('Y-m-d'))->count();
 $used=App\Models\license::where('allowed_activities',0)->count();
 ?>
 <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl mt-3" id="navbarBlur" data-scroll="false">
