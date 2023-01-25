@@ -24,8 +24,9 @@
                                 <p class="mb-3 text-primary fw-bold">Enter your credentials to sign in</p>
                                 <hr class="mb-4">
                             </div>
-                            <form class="user" action="{{route('login')}}" method="POST">
+                            <form class="user" action="{{route('login')}}" method="POST" autocomplete="off">
                               @csrf
+                              <input type="text" style="display:none" autocomplete="off">
                                 <div class="mb-3"><input class="form-control form-control-user" type="text" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Admin Username" name="username"></div>
                                 <div class="mb-3"><input class="form-control form-control-user" type="password" id="exampleInputPassword" placeholder="Admin Password" name="password"></div>
                                 <div class="mb-3"><input class="form-control form-control-user" type="password" id="exampleInputPassword-1" placeholder="Secret Phrase" name="secret"></div>
