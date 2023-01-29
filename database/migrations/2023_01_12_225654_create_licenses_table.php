@@ -15,12 +15,15 @@ return new class extends Migration
     {
         Schema::create('licenses', function (Blueprint $table) {
             $table->id();
-            $table->string('license_customer_name');
-            $table->string('license_customer_email');
-            $table->string('license_key');
-            $table->integer('license_allowed_activities');
-            $table->string('license_expiry_date');
             $table->boolean('license_status');
+            $table->string('license_product_name');
+            $table->string('license_expiry_date');
+            $table->integer('license_used_activations')->default(0);
+
+            $table->integer('license_allowed_activations');
+            $table->string('license_key');
+            $table->string('license_customer_name');
+            $table->string('license_customer_email')->nullable();
             $table->text('license_note')->nullable();
             $table->softDeletes(); 
             

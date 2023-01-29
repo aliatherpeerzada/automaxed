@@ -34,21 +34,37 @@ Auth::logout();
 return redirect('/');
 })->name('logout');
 
+Route::get('/generateuuid',function(){
+    return Illuminate\Support\Str::uuid()->getHex();
+});
+
 
 Route::post('/login',[HomeController::class,'customLogin'])->name('login');
 
 
 
 Route::middleware(['auth'])->group(function () {
+    
+
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::post('update-cred',[LicenseController::class,'update_cred'])->name('update-credentials');
+Route::post('company_name_change',[LicenseController::class,'change_name'])->name('company_name_change');
+
+Route::get('settings',function(){
+    $data=User::first();
+    return view('settings',['data'=>$data]);
+    });
+
+
+
+
+
+
+
 
 Route::post('add-license',[LicenseController::class,'add'])->name('add-license');
-Route::get('settings',function(){
-$data=User::first();
-return view('settings',['data'=>$data]);
-});
+
 
 Route::post('/license/{id}/update',[LicenseController::class,'licenseUpdate'])->name('update-license');
 Route::get('/license/{id}/edit',function($id){
@@ -62,10 +78,15 @@ Route::get('/license/{id}/view',function($id){
     Route::get('/upload-csv',function(){
         return view('import_csv');
     })->name('csv-upload');
+
 Route::post('/license-delete/{id}',[LicenseController::class,'delete']);
+
 Route::get('/show-licenses',[LicenseController::class,'show'])->name('show-licenses');
+
 Route::post('import-csv',[LicenseController::class,'import'])->name('import-csv');
 Route::post('update-cred',[LicenseController::class,'update_cred'])->name('update-credentials');
+
+
 Route::get('/show-activity',[ActivityController::class,'show'])->name('show-activity'); 
 
 });

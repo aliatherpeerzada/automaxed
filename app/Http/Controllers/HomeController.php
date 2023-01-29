@@ -47,7 +47,8 @@ class HomeController extends Controller
   if(Auth::attempt(['username'=>$data[0]['username'],'password'=> $validated['password'] ]) ){
   return  redirect('/home');
         }   else{
-          dd('123123');
+          return redirect()->back()->with('message','Validation Failed');
+   
         }
 }else{
   return redirect()->back()->with('message','Incorrect Password');

@@ -11,12 +11,14 @@ class license extends Model
     use HasFactory;
     use SoftDeletes;
 protected $fillable=[
-    'customer_name',
-    'customer_email',
-    'allowed_activities',
-    'expiry_date',
+    'license_status',
+    'license_product_name',
+    'license_expiry_date',
+    'license_used_activations',
+   'license_allowed_activations',
     'license_key',
-    'note',
-    'status'
+    'license_customer_name',
+    'license_customer_email',
+    'license_note'
 ];
 }

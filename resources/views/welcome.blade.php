@@ -27,13 +27,14 @@
                             <form class="user" action="{{route('login')}}" method="POST" autocomplete="off">
                               @csrf
                               <input type="text" style="display:none" autocomplete="off">
-                                <div class="mb-3"><input class="form-control form-control-user" type="text" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Admin Username" name="username"></div>
-                                <div class="mb-3"><input class="form-control form-control-user" type="password" id="exampleInputPassword" placeholder="Admin Password" name="password"></div>
-                                <div class="mb-3"><input class="form-control form-control-user" type="password" id="exampleInputPassword-1" placeholder="Secret Phrase" name="secret"></div>
+                                <div class="mb-3"><input class="form-control form-control-user" type="text"   placeholder="Admin Username" name="username"></div>
+                                <div class="mb-3"><input class="form-control form-control-user" type="password"  placeholder="Admin Password" name="password"></div>
+                                <div class="mb-3"><input class="form-control form-control-user" type="password" placeholder="Secret Phrase" name="secret"></div>
                                 <div class="mt-4"><button class="btn btn-primary d-block btn-user w-100" type="submit">Login</button></div>
                             </form>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>

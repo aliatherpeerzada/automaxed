@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -8,6 +7,8 @@
     <link rel="stylesheet" href="{{URL::asset('assets/bootstrap/css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{URL::asset('assets/fonts/fontawesome-all.min.css')}}">
     <link rel="stylesheet" href="{{URL::asset('assets/css/styles.min.css')}}">
+    {{-- <link rel="stylesheet" href="{{URL::asset('assets/css/sb-admin.min.css')}}"> --}}
+
 </head>
 
 <body id="page-top">
@@ -19,11 +20,22 @@
                 </a>
                 <hr class="sidebar-divider my-0">
                 <ul class="navbar-nav text-light" id="accordionSidebar">
-                    <li class="nav-item"><a class="nav-link" href="../add-new-license.html"><i class="fas fa-key"></i><span>Add New License</span></a></li>
-                    <li class="nav-item"><a class="nav-link" href="../show-all-licenses.html"><i class="fas fa-database"></i><span>Show All Licenses</span></a></li>
-                    <li class="nav-item"><a class="nav-link" href="user-activity-log.html"><i class="fas fa-database"></i><span>User Activity Log</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{url('home')}}"><i class="fas fa-key"></i><span>Add New License</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{url('show-licenses')}}"><i class="fas fa-database"></i><span>Show All Licenses</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{url('show-activity')}}"><i class="fas fa-database"></i><span>User Activity Log</span></a></li>
                     <li class="nav-item"><a class="nav-link" href="{{url('settings')}}"><i class="fas fa-cog"></i><span>Settings</span></a></li>
-                    <li class="nav-item"><a class="nav-link" href="../login.html"><i class="fas fa-power-off"></i><span>Logout</span></a></li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('logout') }}"
+                    onclick="event.preventDefault();
+                                  document.getElementById('logout-form').submit();">
+                     <i class="fas fa-power-off"></i><span>Logout</span>
+                    </a>
+                    
+                    
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                     @csrf
+                    </form>
+                
                 </ul>
                 <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
             </div>
@@ -64,6 +76,12 @@
     </div>
     <script src="{{URL::asset('assets/bootstrap/js/bootstrap.min.js')}}"></script>
     <script src="{{URL::asset('assets/js/script.min.js')}}"></script>
+
+    <script src="{{URL::asset('assets/js/jquery.min.js')}}"></script>
+    <script src="{{URL::asset('assets/js/jquery.dataTables.min.js')}}"></script>
+    <script src="{{URL::asset('assets/js/dataTables.bootstrap4.min.js')}}"></script>
+<x-notification />
+
 </body>
 
 </html>

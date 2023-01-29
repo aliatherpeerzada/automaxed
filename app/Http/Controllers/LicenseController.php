@@ -35,55 +35,60 @@ class LicenseController extends Controller
     }
 
     public function update_cred(Request $request){
-        $data = $request->validate([
-            'username'=>'required',
-            'secret'=>'required',
-            'companyname'=>'required'
-        
-        ]);
+
         if($request->password!='')
         {   
           User::first()->update([
-              'username'=>$data['username'],
-              'secret'=>$data['secret'],
-              'password'=>bcrypt($request->password),
-              'companyname'=>$data['companyname']
+              'username'=>$request->admin_username,
+              'secret'=>$request->admin_secret_phrase,
+              'password'=>bcrypt($request->admin_password),
           ]);
         }
         else
         {
             User::first()->update([
-                'username'=>$data['username'],
-                'secret'=>$data['secret'],
-                'companyname'=>$data['companyname']
+                'username'=>$request->admin_username,
+                'secret'=>$request->admin_secret_phrase,
             ]);
             
         }
-              return redirect()->back()->with('message','Record Updated Successfully');
+              return redirect()->back()->with('message','Credentials Updated Successfully');
 
     }
    
-
-    public function add(Request $request){
-        // dd($request);
-        $data = $request->validate([
-'status'=>'required',
-'customer_name'=>'required',
-'customer_email'=>'required',
-'license_key'=>'required',
-'activity'=>'required',
-'expiry_date'=>'required',
+    public function change_name(Request $request){
+        $request->validate([
+            'admin_company_name'=>'required'
         ]);
 
-      $data=  license::create([
-            'customer_name'=>$data['customer_name'],
-            'customer_email'=>$data['customer_email'],
-            'license_key'=>$data['license_key'],
-            'allowed_activities'=>$data['activity'],
-            'expiry_date'=>$data['expiry_date'],
-            'status'=>$data['status'],
-            'note'=>$request['note'],
+        User::first()->update([
 
+                'companyname'=>$request->admin_company_name
+            ]);
+            return redirect()->back()->with('message','Admin Company Name Updated Successfully');
+
+
+    }
+
+    public function add(Request $request){
+        $license_status=0;
+        if($request->has('license_status')){
+            $license_status=1;
+        }
+        $data = $request->validate([
+            'license_product_name'=>'unique:licenses'
+        ]);
+
+// dd($request);
+      $data=  license::create([
+        'license_status'=>$license_status,
+        'license_product_name'=>$request->license_product_name,
+        'license_expiry_date'=>$request->license_expiry_date,
+       'license_allowed_activations'=>(int)$request->license_allowed_activations,
+        'license_key'=>$request->license_key,
+        'license_customer_name'=>$request->license_customer_name,
+        'license_customer_email'=>$request->license_customer_email,
+        'license_note'=>$request->license_note
         ]);
    
         return redirect()->back()->with('message','License Added Successfully');
