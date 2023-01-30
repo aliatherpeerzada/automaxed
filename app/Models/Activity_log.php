@@ -10,10 +10,12 @@ class Activity_log extends Model
     use HasFactory;
 
     protected $fillable=[
+        'license_product_name',
         'license_key',
-'name',
-'email',
-'country',
-'ip','hardware_id',
-'status'];
+'license_customer_name',
+'license_customer_email',
+'license_customer_country',
+'license_customer_ip',
+'license_hardware_id',
+'license_action_status'];
 }

@@ -86,7 +86,7 @@ if($error1==1||$error2==1||$error3==1)
                                     </div>
                                     <div class="col-6">
                                         <div class="mb-3">
-                                            <label class="form-label text-primary" ><strong>Used Allowed Activations</strong></label><span class="p-1 small">(<a href="#">click to reset</a>)</span>
+                                            <label class="form-label text-primary" ><strong>Used Allowed Activations</strong></label><span class="p-1 small">(<a href="#" >click to reset</a>)</span>
                                         <input disabled class="form-control used" value="{{$license->license_used_activations}}"  ></div>
                                     </div>
                                     <div class="col-12">
@@ -119,6 +119,10 @@ if($error1==1||$error2==1||$error3==1)
 <script>
     $(document).ready(function(){
 
+        function resetCount(){
+        alert();
+    }
+
         $("#allowed").attr({
    "min" : 1
 });
@@ -146,6 +150,10 @@ $('#allowed').keyup(function(){
 
     });
     
+   
+
+
+
 
 $('#license_switch').click(function() {
 error();

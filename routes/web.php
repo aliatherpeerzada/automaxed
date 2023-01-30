@@ -4,6 +4,8 @@ use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LicenseController;
+use App\Models\Activity_log;
+use App\Models\license;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -98,11 +100,11 @@ Route::get('/show-activity',[ActivityController::class,'show'])->name('show-acti
 Route::get('gen-excel',function(){
 
 
-    $writer = SimpleExcelWriter::streamDownload('your-export.xlsx')
+    $writer = SimpleExcelWriter::streamDownload('all-licenses.xlsx')
     ->addHeader(['license_product_name', 'license_expiry_date','license_status','license_used_activations',
     'license_allowed_activations','license_key','license_customer_name','license_customer_email','license_note'
 ]);
-    $datas=information::latest()->get();
+    $datas=license::latest()->get();
   //  dd($datas);
     $count=0;
 foreach($datas as $data){
@@ -132,11 +134,11 @@ foreach($datas as $data){
 Route::get('gen-csv',function(){
 
 
-    $writer = SimpleExcelWriter::streamDownload('your-export.csv')
+    $writer = SimpleExcelWriter::streamDownload('all-licenses.csv')
     ->addHeader(['license_product_name', 'license_expiry_date','license_status','license_used_activations',
     'license_allowed_activations','license_key','license_customer_name','license_customer_email','license_note'
 ]);
-    $datas=information::latest()->get();
+    $datas=license::latest()->get();
   //  dd($datas);
     $count=0;
 foreach($datas as $data){
@@ -161,3 +163,83 @@ foreach($datas as $data){
 // $writer->toBrowser();
     
 })->name('export.csv') ;
+
+
+
+Route::get('gen-activity-csv',function(){
+
+
+    $writer = SimpleExcelWriter::streamDownload('Activity.csv')
+    ->addHeader([
+        'license_product_name',
+        'license_key',
+'license_customer_name',
+'license_customer_email',
+'license_customer_country',
+'license_customer_ip',
+'license_hardware_id',
+'license_action_status'
+]);
+    $datas=Activity_log::latest()->get();
+  //  dd($datas);
+    $count=0;
+foreach($datas as $data){
+    $writer->addRow([
+        'license_product_name'=>$data->license_product_name,
+        'license_key'=>$data->license_key,
+'license_customer_name'=>$data->license_customer_name,
+'license_customer_email'=>$data->license_customer_email,
+'license_customer_country'=>$data->license_customer_country,
+'license_customer_ip'=>$data->license_customer_ip,
+'license_hardware_id'=>$data->license_hardware_id,
+'license_action_status'=>$data->license_action_status
+    ]);
+    $count=$count+1;
+
+    if($count==1000){
+        flush(); 
+    }
+}
+
+// $writer->toBrowser();
+    
+})->name('activity.csv') ;
+
+
+Route::get('gen-activity-excel',function(){
+
+
+   
+    $writer = SimpleExcelWriter::streamDownload('Activity.xlsx')
+    ->addHeader([
+        'license_product_name',
+        'license_key',
+'license_customer_name',
+'license_customer_email',
+'license_customer_country',
+'license_customer_ip',
+'license_hardware_id',
+'license_action_status'
+]);
+    $datas=Activity_log::latest()->get();
+  //  dd($datas);
+    $count=0;
+foreach($datas as $data){
+    $writer->addRow([
+        'license_product_name'=>$data->license_product_name,
+        'license_key'=>$data->license_key,
+'license_customer_name'=>$data->license_customer_name,
+'license_customer_email'=>$data->license_customer_email,
+'license_customer_country'=>$data->license_customer_country,
+'license_customer_ip'=>$data->license_customer_ip,
+'license_hardware_id'=>$data->license_hardware_id,
+'license_action_status'=>$data->license_action_status
+    ]);
+    $count=$count+1;
+
+    if($count==1000){
+        flush(); 
+    }
+}
+    
+})->name('activity.excel') ;

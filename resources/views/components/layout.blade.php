@@ -47,16 +47,24 @@
                         <div class="container header-stats">
                             <div class="row">
                                 <div class="col-md-3">
-                                    <p class="mb-0"><span class="text-primary px-1 fw-bolder">4</span>Licenses Total</p>
+                                    @php
+                                    $total = App\Models\License::all()->count();
+                                   $valid= App\Models\License::whereDate('license_expiry_date','>',date('Y-m-d'))->get()->count();
+                                   $activations=App\Models\Activity_log::where('license_action_status','ACTIVATED')->get()->count();
+                                   $usedID=App\Models\Activity_log::select('license_product_name')->distinct()->get();
+                                   $used=App\Models\License::whereIn('license_product_name',$usedID)->get()->count();
+                                 
+                                    @endphp
+                                    <p class="mb-0"><span class="text-primary px-1 fw-bolder">{{$total}}</span>Licenses Total</p>
                                 </div>
                                 <div class="col-md-3">
-                                    <p class="mb-0"><span class="text-primary px-1 fw-bolder">3</span>Licenses Valid</p>
+                                    <p class="mb-0"><span class="text-primary px-1 fw-bolder">{{$valid}}</span>Licenses Valid</p>
                                 </div>
                                 <div class="col-md-3">
-                                    <p class="mb-0"><span class="text-primary px-1 fw-bolder">1</span>Licenses Used</p>
+                                    <p class="mb-0"><span class="text-primary px-1 fw-bolder">{{$used}}</span>Licenses Used</p>
                                 </div>
                                 <div class="col-md-3">
-                                    <p class="mb-0"><span class="text-primary px-1 fw-bolder">2</span>Activations</p>
+                                    <p class="mb-0"><span class="text-primary px-1 fw-bolder">{{$activations}}</span>Activations</p>
                                 </div>
                             </div>
                         </div>
