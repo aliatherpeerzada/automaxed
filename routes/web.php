@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Spatie\SimpleExcel\SimpleExcelWriter;
 
 /*
 |--------------------------------------------------------------------------
@@ -90,3 +91,73 @@ Route::post('update-cred',[LicenseController::class,'update_cred'])->name('updat
 Route::get('/show-activity',[ActivityController::class,'show'])->name('show-activity'); 
 
 });
+
+
+
+
+Route::get('gen-excel',function(){
+
+
+    $writer = SimpleExcelWriter::streamDownload('your-export.xlsx')
+    ->addHeader(['license_product_name', 'license_expiry_date','license_status','license_used_activations',
+    'license_allowed_activations','license_key','license_customer_name','license_customer_email','license_note'
+]);
+    $datas=information::latest()->get();
+  //  dd($datas);
+    $count=0;
+foreach($datas as $data){
+    $writer->addRow([
+        'license_product_name'=>$data->license_product_name,
+         'license_expiry_date'=>$data->license_expiry_date,
+         'license_status'=>$data->license_status,
+         'license_used_activations'=>$data->license_used_activations,
+        'license_allowed_activations'=>$data->license_allowed_activations,
+        'license_key'=>$data->license_key,
+        'license_customer_name'=>$data->license_customer_name,
+        'license_customer_email'=>$data->license_customer_email,
+        'license_note'=>$data->license_note
+    ]);
+    $count=$count+1;
+
+    if($count==1000){
+        flush(); 
+    }
+}
+
+// $writer->toBrowser();
+    
+})->name('export.spatie') ;
+
+
+Route::get('gen-csv',function(){
+
+
+    $writer = SimpleExcelWriter::streamDownload('your-export.csv')
+    ->addHeader(['license_product_name', 'license_expiry_date','license_status','license_used_activations',
+    'license_allowed_activations','license_key','license_customer_name','license_customer_email','license_note'
+]);
+    $datas=information::latest()->get();
+  //  dd($datas);
+    $count=0;
+foreach($datas as $data){
+    $writer->addRow([
+        'license_product_name'=>$data->license_product_name,
+         'license_expiry_date'=>$data->license_expiry_date,
+         'license_status'=>$data->license_status,
+         'license_used_activations'=>$data->license_used_activations,
+        'license_allowed_activations'=>$data->license_allowed_activations,
+        'license_key'=>$data->license_key,
+        'license_customer_name'=>$data->license_customer_name,
+        'license_customer_email'=>$data->license_customer_email,
+        'license_note'=>$data->license_note
+    ]);
+    $count=$count+1;
+
+    if($count==1000){
+        flush(); 
+    }
+}
+
+// $writer->toBrowser();
+    
+})->name('export.csv') ;
