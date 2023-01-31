@@ -48,6 +48,12 @@ Route::post('/login',[HomeController::class,'customLogin'])->name('login');
 
 Route::middleware(['auth'])->group(function () {
     
+  Route::get('/reset-activation/{id}',function($id){
+license::where('id',$id)->update([
+    'license_used_activations'=>0
+]);
+return 'success' ;
+  })  ;
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
@@ -78,10 +84,7 @@ Route::get('/license/{id}/view',function($id){
     $license= App\Models\license::where('id',$id)->first();
     return view('view-license',['license'=>$license]);
     });
-    Route::get('/upload-csv',function(){
-        return view('import_csv');
-    })->name('csv-upload');
-
+ 
 Route::post('/license-delete/{id}',[LicenseController::class,'delete']);
 
 Route::get('/show-licenses',[LicenseController::class,'show'])->name('show-licenses');
@@ -101,19 +104,24 @@ Route::get('gen-excel',function(){
 
 
     $writer = SimpleExcelWriter::streamDownload('all-licenses.xlsx')
-    ->addHeader(['license_product_name', 'license_expiry_date','license_status','license_used_activations',
-    'license_allowed_activations','license_key','license_customer_name','license_customer_email','license_note'
+    ->addHeader([
+        'license_status',
+        'license_product_name', 
+    'license_expiry_date',
+    'license_allowed_activations'
+    ,'license_key'
+    ,'license_customer_name'
+    ,'license_customer_email'
+    ,'license_note'
 ]);
     $datas=license::latest()->get();
-  //  dd($datas);
     $count=0;
 foreach($datas as $data){
     $writer->addRow([
+        'license_status'=>$data->license_status,
         'license_product_name'=>$data->license_product_name,
          'license_expiry_date'=>$data->license_expiry_date,
-         'license_status'=>$data->license_status,
-         'license_used_activations'=>$data->license_used_activations,
-        'license_allowed_activations'=>$data->license_allowed_activations,
+         'license_allowed_activations'=>$data->license_allowed_activations,
         'license_key'=>$data->license_key,
         'license_customer_name'=>$data->license_customer_name,
         'license_customer_email'=>$data->license_customer_email,
@@ -135,19 +143,24 @@ Route::get('gen-csv',function(){
 
 
     $writer = SimpleExcelWriter::streamDownload('all-licenses.csv')
-    ->addHeader(['license_product_name', 'license_expiry_date','license_status','license_used_activations',
-    'license_allowed_activations','license_key','license_customer_name','license_customer_email','license_note'
+    ->addHeader([
+        'license_status',
+        'license_product_name', 
+    'license_expiry_date',
+    'license_allowed_activations'
+    ,'license_key'
+    ,'license_customer_name'
+    ,'license_customer_email'
+    ,'license_note'
 ]);
     $datas=license::latest()->get();
-  //  dd($datas);
     $count=0;
 foreach($datas as $data){
     $writer->addRow([
+        'license_status'=>$data->license_status,
         'license_product_name'=>$data->license_product_name,
          'license_expiry_date'=>$data->license_expiry_date,
-         'license_status'=>$data->license_status,
-         'license_used_activations'=>$data->license_used_activations,
-        'license_allowed_activations'=>$data->license_allowed_activations,
+         'license_allowed_activations'=>$data->license_allowed_activations,
         'license_key'=>$data->license_key,
         'license_customer_name'=>$data->license_customer_name,
         'license_customer_email'=>$data->license_customer_email,

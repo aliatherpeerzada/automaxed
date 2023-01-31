@@ -25,47 +25,117 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::POST('/useLicense',function(Request $request){
     
+    $request->validate([
+'license_product_name'=>'required',
+'license_key'=>'required',
+'license_hardware_id'=>'required'
+    ]);
     
     $ip=$request->ip()=="::1"?'127.0.0.1':$request->ip();
-        $pip = file_get_contents('https://api.ipify.org');
+    $pip = file_get_contents('https://api.ipify.org');
 
     $hid=exec('getmac');
     $hid = strtok($hid, ' '); 
     $country=Location::get($pip)->countryName;
-    $email=$request->email;
-    $key=$request->key;
 
-    $data = license::where('customer_email',$email)->where('license_key',$key)->where('allowed_activities','>',0)->first();
-    if(isset($data)){
-       Activity_log::create([
-        'license_key'=>$key,
-        'name'=>$data->customer_name,
-        'email'=>$email,
-        'ip'=>$ip,
-        'hardware_id'=>$hid,
-        'country'=>$country
-       ,'status'=>'Activated'
+    $license_product_name=$request->license_product_name;
+    $license_key=$request->license_key;
+
+$checkCount = license::where('license_product_name',$license_product_name)->where('license_key',$license_key)->get()->count();
+if($checkCount<1){
+ 
+    Activity_log::create([
+        'license_product_name'=>$request->license_product_name,
+        'license_key'=>$request->license_key,
+'license_customer_name'=>'',
+'license_customer_email'=>'',
+'license_customer_country'=>$country,
+'license_customer_ip'=>$ip,
+'license_hardware_id'=>$request->license_hardware_id,
+'license_action_status'=>"Invalid Product Name/License"
+
        ]); 
-       license::where('customer_email',$email)->where('license_key',$key)->update([
-        'allowed_activities'=>$data->allowed_activities -1,
-       ]);
+ 
+    return response()->json([
+        'message' => "No Record Found"
+    ], 406);
+}
+$dataTest = license::where('license_product_name',$license_product_name)->where('license_key',$license_key)->first();
+$expiry = date('Y-m-d', strtotime($dataTest->license_expiry_date));
+$today=date("Y-m-d");
+if($expiry<=$today){
+    Activity_log::create([
+        'license_product_name'=>$request->license_product_name,
+        'license_key'=>$request->license_key,
+'license_customer_name'=>$dataTest->license_customer_name,
+'license_customer_email'=>$dataTest->license_customer_email,
+'license_customer_country'=>$country,
+'license_customer_ip'=>$ip,
+'license_hardware_id'=>$request->license_hardware_id,
+'license_action_status'=>"License Expired"
 
-return "License Activated Successfully";
+       ]); 
+    return response()->json([
+        'message' => "License Has Been Expired"
+    ], 406);
+};
+
+
+
+    $data_log = Activity_log::where('license_product_name',$request->license_product_name)->where('license_key',$request->license_key)->where('license_hardware_id',$request->license_hardware_id)->where('license_action_status','ACTIVATED')->get()->count();
+    
+    if($data_log>0)
+    {
+
+        Activity_log::create([
+            'license_product_name'=>$request->license_product_name,
+            'license_key'=>$request->license_key,
+    'license_customer_name'=>$dataTest->license_customer_name,
+    'license_customer_email'=>$dataTest->license_customer_email,
+    'license_customer_country'=>$country,
+    'license_customer_ip'=>$ip,
+    'license_hardware_id'=>$request->license_hardware_id,
+    'license_action_status'=>"OPENED"
+    
+           ]);
+
+           return response()->json([
+            'message' => "License Opened Successfully"
+        ], 200);
+
     }
     else{
-        // Activity_log::create([
-        //     'license_key'=>$key,
-        //     'name'=>'',
-        //     'email'=>$email,
-        //     'ip'=>$ip,
-        //     'hardware_id'=>$hid,
-        //     'country'=>$country
-        //    ,'status'=>'FAILED'
-        //    ]);
+if($dataTest->license_used_activations >= $dataTest->license_allowed_activations)
+{
+    return response()->json([
+        'message' => "License Allowed Activations Exceeded"
+    ], 406);
+}
 
-         return "Customer Email / License Not Found";
+        Activity_log::create([
+            'license_product_name'=>$request->license_product_name,
+            'license_key'=>$request->license_key,
+    'license_customer_name'=>$dataTest->license_customer_name,
+    'license_customer_email'=>$dataTest->license_customer_email,
+    'license_customer_country'=>$country,
+    'license_customer_ip'=>$ip,
+    'license_hardware_id'=>$request->license_hardware_id,
+    'license_action_status'=>"ACTIVATED"
+    
+           ]);
+
+           license::where('license_product_name',$license_product_name)->where('license_key',$license_key)->update([
+            'license_used_activations'=>$dataTest->license_used_activations + 1,
+           ]);
+return response()->json([
+            'message' => "License Activated Successfully"
+        ], 200);
+
+
     }
-return  ;
+    
+ 
+  
 });
 // [ApiController::class,'useLicense']);
 

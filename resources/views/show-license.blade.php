@@ -12,9 +12,17 @@
             <p class="text-primary m-0 fw-bold">Licenses Overview</p>
         </div>
         <div class="card-body  " style="width:100% !important">
-
+        <div class="anchor"><b>Show/Hide Columns</b>
+            <a class="showHideColumn " data-columnindex="0">Product Name</a>
+            <a class="showHideColumn " data-columnindex="1">License Key</a><a class="showHideColumn " data-columnindex="2">Allowed Activations</a>
+             <a class="showHideColumn" data-columnindex="3">Customer Name</a>
+             <a class="showHideColumn " data-columnindex="4">Customer Email</a>
+             <a class="showHideColumn " data-columnindex="5">Expiry Date</a>
+             <a class="showHideColumn " data-columnindex="6">Status</a>
+             <a class="showHideColumn" data-columnindex="7">Note</a></div>
             <div class=" mt-2 table-responsive">
-                <table id="dtable" class="table my-0" width="100%" data-order="[]">
+
+                <table id="dtable" class="table my-0 text-center align-items-center" width="100%" data-order="[]">
 
                     <thead>
                         <tr role="row">
@@ -39,7 +47,7 @@
                           
                                 <td>{{ $license->license_product_name }}</td>
                                 <td>{{ $license->license_key }}</td>
-                                <td>{{ $license->license_used_activations }}/{{ $license->license_allowed_activations }}
+                                <td><label onclick="reset({{$license->id}})" class="refresh"><i class="fas fa-sync-alt"></i></label>   <span id="used_activity{{$license->id}}"> {{ $license->license_used_activations }}</span> /{{ $license->license_allowed_activations }}
                                 </td>
                                 <td>{{ $license->license_customer_name }}</td>
                                 <td>{{ $license->license_customer_email }}</td>
@@ -95,15 +103,17 @@
                         <hr>
                     </div>
                     <h3>Import</h3>
-                    <p>Here you can import licenses in bulk. Click here to <a href="#">download sample import file</a>.</p>
+                    <p>Here you can import licenses in bulk.  <a href="#">Only CSV file allowed</a>.</p>
                     <div class="row">
+                        <form action="{{route('import-csv')}}" enctype="multipart/form-data" method="post">
+                            @csrf
                         <div class="col-md-6">
                             <div class="mb-3 pt-2"><input type="file" name="license_import_file"></div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3"><button class="btn btn-primary link-light" type="submit">Import Licenses<i class="fas fa-upload ps-2"></i></button></div>
                         </div>
-                    </div>
+                    </div></form>
                 </div>
                 <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button></div>
             </div>
@@ -114,17 +124,56 @@
 
 <script>
     $(document).ready(function() {
-        $('#dtable').DataTable({
+ var datatable=   $('#dtable').DataTable({
             
         });
+
+        $('.showHideColumn').click(function(){
+
+var column = datatable.column($(this).attr('data-columnindex'));
+column.visible(!column.visible());
+
+});
+
     });
+
+
+    function reset(id){
+           
+
+            if($('#used_activity'+id).html() != 0)
+    { 
+        $.ajax({
+        type: "get",
+        url: "/reset-activation/"+id,
+        success: function (data) {
+
+            $('#used_activity'+id).html(0);
+alert('Reset Successfully');
+        }
+    });
+        
+        
+    }
+
+}
+
+
 </script>
 <style>
+    .anchor a{
+        margin-left: 5px;
+        cursor:pointer
+    }
     div.dataTables_paginate {
         float: right !important;
         margin-top: 10px;
     }
     .dataTables_filter{
         float:right !important;
+    }
+    .refresh:hover{
+        color:#4e73df;
+        
     }
 </style>

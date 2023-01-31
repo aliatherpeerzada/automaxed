@@ -47,7 +47,7 @@ if($error1==1||$error2==1||$error3==1)
                                     <div class="col-xxl-12">
                                         <div class="form-check form-switch mb-2" style="font-size: 1.2rem;">
                                         <input class="form-check-input" type="checkbox" id="license_switch" @if($license->license_status==1) checked  @endif  name="license_status">
-                                        <label class="form-check-label @if($result==1)text-danger @else text-success @endif" for="license_switch" id="heading"><strong><span id="switch-text">{{$activated_text}}</span>,<span id="expired"> {{$expire_text}} </span>,  it has been used on <span class='used'>{{$used}}</span> out of <span id="usage">{{$allowed}}</span> computers</strong></label></div>
+                                        <label class="form-check-label @if($result==1)text-danger @else text-success @endif" for="license_switch" id="heading"><strong><span id="switch-text">{{$activated_text}}</span>,<span id="expired"> {{$expire_text}} </span>,  it has been used on <span class='used-activation'>{{$used}}</span> out of <span id="usage">{{$allowed}}</span> computers</strong></label></div>
                                         
                                         <p class="mb-1">If the license is enabled the compiled bot can be used with it.&nbsp;If the license is disabled or expired the compiled bot stops working.&nbsp;You can enable and disable licenses anytime. Keep in mind that also the expiry date of the license must be in the future for a license to be valid</p>
                                        
@@ -86,8 +86,8 @@ if($error1==1||$error2==1||$error3==1)
                                     </div>
                                     <div class="col-6">
                                         <div class="mb-3">
-                                            <label class="form-label text-primary" ><strong>Used Allowed Activations</strong></label><span class="p-1 small">(<a href="#" >click to reset</a>)</span>
-                                        <input disabled class="form-control used" value="{{$license->license_used_activations}}"  ></div>
+                                            <label class="form-label text-primary" ><strong>Used Allowed Activations</strong></label><span class="p-1 small">(<a href="#" onclick="reset({{$license->id}})" >click to reset</a>)</span>
+                                        <input disabled class="form-control used" id="used_activation_input" value="{{$license->license_used_activations}}"  ></div>
                                     </div>
                                     <div class="col-12">
                                         <div class="mb-3">
@@ -117,11 +117,36 @@ if($error1==1||$error2==1||$error3==1)
 </x-layout>
 
 <script>
-    $(document).ready(function(){
+        function reset(id){
+           var allowed= parseInt($('#usage').html());
+           var used=parseInt($('.used-activation').html());
 
-        function resetCount(){
-        alert();
+            if($('#used_activation_input').val() != 0)
+    { 
+        $.ajax({
+        type: "get",
+        url: "/reset-activation/"+id,
+        success: function (data) {
+if(allowed==used){
+    
+    $('#heading').removeClass('text-danger'); 
+    $('#heading').addClass('text-success');   
+}
+            $('#used_activation_input').val(0);
+            $('.used-activation').html(0);
+
+        }
+    });
+        
+        
     }
+
+}
+
+$(document).ready(function(){
+
+
+
 
         $("#allowed").attr({
    "min" : 1

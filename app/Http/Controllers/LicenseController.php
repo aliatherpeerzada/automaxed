@@ -14,21 +14,27 @@ class LicenseController extends Controller
 
     public function import(Request $request){
         $request->validate([
-            'file'=>'required|mimes:csv'
+            'license_import_file'=>'required|mimes:csv'
         ]);
-        SimpleExcelReader::create($request->file('file'),'csv')
+        SimpleExcelReader::create($request->file('license_import_file'),'csv')
                    
                     ->getRows()
                     ->each(function(array $rowProperties) {
-                        license::create([
-                            'customer_name' => $rowProperties['customer_name'],
-                            'customer_email' => $rowProperties['customer_email'],
-                            'license_key' => $rowProperties['license_key'],
-                            'allowed_activities' => $rowProperties['allowed_activities'],
-                            'expiry_date' => $rowProperties['expiry_date'],
-                            'status' => $rowProperties['status'],
-                            'note' => $rowProperties['note'],
+          $count=license::where('license_product_name',$rowProperties['license_product_name'])->get()->count();
+        if($count<1){
+         license::create([
+                            'license_status'=> $rowProperties['license_status'],
+                            'license_product_name'=> $rowProperties['license_product_name'],
+                            'license_expiry_date'=> $rowProperties['license_expiry_date'],
+                            'license_used_activations'=> 0,
+                           'license_allowed_activations'=> $rowProperties['license_allowed_activations'],
+                            'license_key'=> $rowProperties['license_key'],
+                            'license_customer_name'=> $rowProperties['license_customer_name'],
+                            'license_customer_email'=> $rowProperties['license_customer_email'],
+                            'license_note'=> $rowProperties['license_note']
                         ]);
+                    }
+                   
                 });
 
                 return redirect('/show-licenses')->with('message','File uploaded successfully');
@@ -79,7 +85,7 @@ class LicenseController extends Controller
             'license_product_name'=>'unique:licenses'
         ]);
 
-// dd($request);
+        // dd($request);
       $data=  license::create([
         'license_status'=>$license_status,
         'license_product_name'=>$request->license_product_name,
@@ -97,7 +103,7 @@ class LicenseController extends Controller
     public function show(){
         $licenses=license::orderBy('id','desc')
         ->get();
-return view('show-license',['licenses'=>$licenses]);
+          return view('show-license',['licenses'=>$licenses]);
     }
     //
     public function delete(Request $request,$id){
@@ -107,25 +113,27 @@ return view('show-license',['licenses'=>$licenses]);
 
 
     public function licenseUpdate(Request $request,$id){
-    
+        $license_status=0;
+        if($request->has('license_status')){
+            $license_status=1;
+        }
         $data = $request->validate([
-        'status'=>'required',
-        'customer_name'=>'required',
-        'customer_email'=>'required',
+        'license_product_name'=>'required',
+        'license_customer_name'=>'required',
         'license_key'=>'required',
-        'activity'=>'required',
-        'expiry_date'=>'required',
+        'license_allowed_activations'=>'required',
+        'license_expiry_date'=>'required',
                 ]);
         
                 license::where('id',$id)->first()->update([
-                    'customer_name'=>$data['customer_name'],
-                    'customer_email'=>$data['customer_email'],
-                    'license_key'=>$data['license_key'],
-                    'allowed_activities'=>$data['activity'],
-                    'expiry_date'=>$data['expiry_date'],
-                    'status'=>$data['status'],
-                    'note'=>$request['note'],
-        
+                    'license_status'=>$license_status,
+                    'license_product_name'=>$request->license_product_name,
+                    'license_expiry_date'=>$request->license_expiry_date,
+                   'license_allowed_activations'=>$request->license_allowed_activations,
+                    'license_key'=>$request->license_key,
+                    'license_customer_name'=>$request->license_customer_name,
+                    'license_customer_email'=>$request->license_customer_email,
+                    'license_note'=>$request->license_note        
                 ]);
        
         return redirect('/show-licenses')->with('message','License Updated Successfully');
